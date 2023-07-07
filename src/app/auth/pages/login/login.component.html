@@ -1,0 +1,33 @@
+<h1 class="form-title">Iniciar Sesión</h1>
+<form [formGroup]="loginForm" (ngSubmit)="submitForm()" autocomplete="off" class="login-form">
+  <mat-form-field appearance="fill">
+    <mat-label>Email</mat-label>
+    <input matInput formControlName="email" placeholder="Escribe el email..." />
+    <mat-icon matSuffix class="email-icon">email</mat-icon>
+    <mat-error>{{ emailError() }}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Contraseña</mat-label>
+    <input
+      matInput
+      formControlName="password"
+      [type]="hide ? 'password' : 'text'"
+      placeholder="Escribe la contraseña"
+    />
+    <mat-icon matSuffix (click)="hide = !hide" class="visibility-change">
+      {{ hide ? "visibility_off" : "visibility" }}
+    </mat-icon>
+    <mat-error>{{ passwordError() }}</mat-error>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit" [disabled]="btnDisabled" class="btn-submit">
+    <mat-icon matPrefix *ngIf="btnDisabled" class="loader-icon">sync</mat-icon>
+    <span>INGRESAR</span>
+  </button>
+
+  <div>
+    <p>¿No tienes cuenta?</p>
+    <button mat-flat-button routerLink="/auth/register" type="button">CREAR UNA AQUÍ</button>
+  </div>
+</form>

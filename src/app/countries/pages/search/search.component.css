@@ -1,0 +1,63 @@
+.mat-sidenav-container {
+   top: 56px;
+   min-height: calc(100vh - 56px);
+   background-color: hsl(0, 0%, 98%);
+}
+
+.mat-sidenav {
+   top: 56px !important;
+   padding: 15px 0px;
+   min-width: 220px;
+}
+
+.mat-sidenav h3 {
+   font-size: 1.1rem;
+   margin: 0;
+   padding: 0 20px;
+}
+
+.mat-sidenav li {
+   cursor: pointer;
+   list-style-type: none;
+   padding: 0.8rem 3rem;
+   font-size: 1rem;
+   user-select: none;
+}
+
+.mat-sidenav li:hover {
+   background-color: #ddd;
+   color: black;
+}
+
+.active {
+   background-color: #eee;
+   color: #3f51b5;
+   font-weight: 900;
+}
+
+.mat-sidenav-content {
+   padding-bottom: 50px;
+}
+
+.go-login {
+   cursor: pointer;
+}
+
+::ng-deep .loader-bar {
+   width: 90%;
+   margin: 2rem auto;
+}
+
+::ng-deep .mat-simple-snackbar {
+   font-size: 1rem;
+}
+
+@media screen and (min-width: 600px) {
+   .mat-sidenav-container {
+      top: 64px;
+      min-height: calc(100vh - 64px);
+   }
+   .mat-sidenav {
+      top: 64px !important;
+   }
+}

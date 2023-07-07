@@ -1,0 +1,30 @@
+.mat-card {
+   width: 260px;
+   height: 350px;
+   cursor: pointer;
+   overflow: hidden;
+   display: flex;
+   flex-direction: column;
+}
+
+.mat-card-image {
+   object-fit: contain;
+   background-color: #eee;
+}
+
+.expander {
+   flex-grow: 1;
+}
+
+.mat-card-content {
+   padding: 0 10px;
+}
+
+.mat-card-content h3 {
+   font-weight: 800;
+   font-size: 18px;
+}
+
+.mat-card-actions {
+   padding-top: 0;
+}

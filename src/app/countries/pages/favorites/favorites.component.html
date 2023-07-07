@@ -1,0 +1,21 @@
+<section>
+  <form class="search-form" autocomplete="off">
+    <app-input-filter
+      class="search-form__input-text"
+      (onInput)="searchCountry($event)"
+    ></app-input-filter>
+    <h1><b>Favoritos</b></h1>
+  </form>
+</section>
+
+<h2 *ngIf="withoutFavorites && filteredCountriesList.length < 1">Aún no hay favoritos.</h2>
+
+<section class="grid-cards-container">
+  <div class="grid-cards-item" *ngFor="let country of filteredCountriesList">
+    <app-card-country
+      [country]="country"
+      [isFavorite]="checkIsFavorite(country.cca3)"
+      (onFavoriteRemoved)="updateFavorites($event)"
+    ></app-card-country>
+  </div>
+</section>

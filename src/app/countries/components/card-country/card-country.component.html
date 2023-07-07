@@ -1,0 +1,34 @@
+<mat-card (click)="goToCountry()">
+  <img mat-card-image [src]="country.flags.svg" />
+  <div class="expander"></div>
+  <mat-card-content>
+    <h3>{{ country.translations["spa"].common }}</h3>
+    <p><b>Habitantes:</b> {{ country.population | number }}</p>
+    <p><b>Región:</b> {{ country.region | regionTraductor }}</p>
+    <p><b>Capital:</b> {{ country.capital || "-" }}</p>
+  </mat-card-content>
+  <mat-card-actions align="end">
+    <button mat-icon-button *ngIf="(currentUser | async)?.username">
+      <mat-icon
+        *ngIf="!isFavorite; else fav"
+        class="material-symbols-outlined"
+        (click)="addFavorite($event)"
+        matTooltip="Agregar Favorito"
+        matTooltipShowDelay="400"
+      >
+        star
+      </mat-icon>
+      <ng-template #fav>
+        <mat-icon
+          mat-icon-button
+          (click)="removeFavorite($event)"
+          style="color: goldenrod"
+          matTooltip="Quitar Favorito"
+          matTooltipShowDelay="400"
+        >
+          star
+        </mat-icon>
+      </ng-template>
+    </button>
+  </mat-card-actions>
+</mat-card>

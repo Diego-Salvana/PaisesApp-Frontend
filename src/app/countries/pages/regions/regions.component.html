@@ -1,0 +1,26 @@
+<section>
+  <form class="search-form" autocomplete="off">
+    <app-input-filter
+      class="search-form__input-text"
+      (onInput)="filterCountries($event)"
+    ></app-input-filter>
+    <h1>
+      <b>{{ region | regionTraductor }}</b>
+    </h1>
+  </form>
+</section>
+
+<div class="loader-bar" *ngIf="isLoading$ | async; else countriesGrid">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
+
+<ng-template #countriesGrid>
+  <section class="grid-cards-container">
+    <div class="grid-cards-item" *ngFor="let country of filteredCountriesList">
+      <app-card-country
+        [country]="country"
+        [isFavorite]="checkIsFavorite(country.cca3)"
+      ></app-card-country>
+    </div>
+  </section>
+</ng-template>

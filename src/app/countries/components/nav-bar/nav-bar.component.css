@@ -1,0 +1,66 @@
+.mat-toolbar {
+   position: fixed;
+   top: 0;
+   z-index: 1000;
+   box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+      0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+   padding: 0 4vw;
+}
+
+.mat-toolbar__nav {
+   display: flex;
+   justify-content: space-between;
+   width: 100%;
+   max-width: 1920px;
+   margin: 0 auto;
+}
+
+.mat-toolbar__nav--title {
+   margin-left: 1rem;
+   user-select: none;
+}
+
+.flex-align-center {
+   display: flex;
+   align-items: center;
+}
+
+.btn-menu {
+   overflow: hidden;
+}
+
+.btn-login {
+   display: none;
+}
+
+.btn-login .mat-button {
+   font-size: 14.5px;
+}
+
+.mat-menu__user {
+   padding: 1rem;
+   padding-top: 0.5rem;
+   font-size: 1rem;
+}
+
+@media screen and (min-width: 600px) {
+   .btn-login {
+      display: block;
+   }
+   .btn-home {
+      display: none;
+   }
+}
+
+@media screen and (min-width: 1280px) {
+   .btn-menu {
+      display: none;
+   }
+   .mat-toolbar__nav {
+      padding-left: 2vw;
+      padding-right: 2vw;
+   }
+   .mat-toolbar__nav--title {
+      margin-left: 0;
+   }
+}

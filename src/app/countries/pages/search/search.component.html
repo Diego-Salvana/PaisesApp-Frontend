@@ -1,0 +1,68 @@
+<header>
+  <app-nav-bar (onMenuClick)="sidenav.toggle()" (onFavClick)="close(sidenav)"></app-nav-bar>
+</header>
+
+<mat-sidenav-container>
+  <mat-sidenav
+    #sidenav
+    [mode]="sidenavMode"
+    fixedInViewport="true"
+    [opened]="sidenavOpened"
+    [disableClose]="sidenavDisableClose"
+  >
+    <ng-container *ngIf="isXSmall">
+      <ng-container *ngIf="!loggedUser; else user">
+        <h3 routerLink="/auth/login" class="go-login">Iniciar Sesión</h3>
+      </ng-container>
+      <ng-template #user>
+        <h3>
+          <b>{{ loggedUser }}</b>
+        </h3>
+        <ul>
+          <li matRipple routerLink="favorites" routerLinkActive="active" (click)="close(sidenav)">
+            Favoritos
+          </li>
+          <li matRipple routerLinkActive="active" (click)="close(sidenav); logout()">Cerrar Sesión</li>
+        </ul>
+      </ng-template>
+      <br />
+      <mat-divider></mat-divider>
+      <br />
+    </ng-container>
+
+    <h3><b>Buscar por</b></h3>
+    <ul>
+      <li matRipple routerLink="by-country" routerLinkActive="active" (click)="close(sidenav)">País</li>
+      <li matRipple routerLink="by-capital" routerLinkActive="active" (click)="close(sidenav)">
+        Capital
+      </li>
+    </ul>
+
+    <br />
+    <mat-divider style="margin: 0 15px"></mat-divider>
+    <br />
+
+    <h3><b>Regiones</b></h3>
+    <ul>
+      <li matRipple routerLink="by-region/africa" routerLinkActive="active" (click)="close(sidenav)">
+        África
+      </li>
+      <li matRipple routerLink="by-region/americas" routerLinkActive="active" (click)="close(sidenav)">
+        América
+      </li>
+      <li matRipple routerLink="by-region/asia" routerLinkActive="active" (click)="close(sidenav)">
+        Asia
+      </li>
+      <li matRipple routerLink="by-region/europe" routerLinkActive="active" (click)="close(sidenav)">
+        Europa
+      </li>
+      <li matRipple routerLink="by-region/oceania" routerLinkActive="active" (click)="close(sidenav)">
+        Oceanía
+      </li>
+    </ul>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

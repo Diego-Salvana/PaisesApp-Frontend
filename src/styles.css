@@ -1,1 +1,68 @@
-/* You can add global styles to this file, and also import other style files */
+html,
+body {
+   min-height: 100vh;
+}
+
+*,
+*::after,
+*::before {
+   box-sizing: border-box;
+}
+
+body {
+   margin: 0;
+   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+ul {
+   margin: 0;
+   padding: 0;
+}
+
+.grid-cards-container {
+   padding: 0 4% 40px;
+   display: grid;
+   grid-template-columns: repeat(auto-fill, 260px);
+   justify-content: space-evenly;
+   row-gap: 2rem;
+   column-gap: 2rem;
+}
+
+.grid-cards-item {
+   width: max-content;
+   margin: auto;
+}
+
+/* Estilos de formularios de búsqueda */
+.search-form {
+   width: 90%;
+   margin: auto;
+   padding: 15px 0;
+   display: flex;
+   align-items: flex-start;
+   flex-direction: column;
+}
+
+.search-form__input-text {
+   width: 100%;
+}
+
+.search-form__input-text input {
+   font-size: 16px;
+}
+
+.search-form__input-text mat-icon {
+   margin: 0 0.5rem;
+}
+
+@media screen and (min-width: 800px) {
+   .search-form__input-text {
+      width: 60%;
+      max-width: 600px;
+   }
+   .search-form {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+   }
+}

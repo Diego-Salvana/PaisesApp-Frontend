@@ -1,0 +1,24 @@
+.mat-form-field {
+   width: 100%;
+   margin-bottom: 1rem;
+}
+
+.mat-error {
+   font-size: 12px;
+}
+
+.person-icon,
+.email-icon {
+   display: none !important;
+}
+
+.visibility-change:hover {
+   cursor: pointer;
+}
+
+@media screen and (min-width: 600px) {
+   .person-icon,
+   .email-icon {
+      display: block !important;
+   }
+}

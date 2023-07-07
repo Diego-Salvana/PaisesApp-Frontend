@@ -1,0 +1,53 @@
+<mat-toolbar color="primary">
+  <nav class="mat-toolbar__nav">
+    <div class="flex-align-center">
+      <ng-container *ngIf="!isHome; else homeMenu">
+        <button mat-icon-button class="btn-menu" (click)="menuClick()">
+          <mat-icon>menu</mat-icon>
+        </button>
+      </ng-container>
+
+      <!-- Menú para mobile -->
+      <ng-template #homeMenu>
+        <button mat-icon-button [matMenuTriggerFor]="menu" class="btn-menu btn-home">
+          <mat-icon>menu</mat-icon>
+        </button>
+
+        <mat-menu #menu>
+          <ng-container *ngIf="!loggedUser; else user">
+            <button mat-menu-item routerLink="/auth">Iniciar Sesión</button>
+          </ng-container>
+
+          <ng-template #user>
+            <div class="mat-menu__user"><b>Pepe</b></div>
+            <mat-divider></mat-divider>
+            <button mat-menu-item routerLink="/search/favorites">Favoritos</button>
+            <button mat-menu-item (click)="logout()">Cerrar Sesión</button>
+          </ng-template>
+        </mat-menu>
+      </ng-template>
+
+      <span class="mat-toolbar__nav--title">Países App</span>
+    </div>
+
+    <div class="flex-align-center btn-login">
+      <ng-container *ngIf="!loggedUser; else perfilUser">
+        <button mat-stroked-button routerLink="/auth">Iniciar Sesión</button>
+      </ng-container>
+
+      <!-- Menú de usuario -->
+      <ng-template #perfilUser>
+        <button mat-button [matMenuTriggerFor]="menuUser">
+          <span>{{ loggedUser }}</span>
+        </button>
+
+        <mat-menu #menuUser>
+          <button mat-menu-item routerLink="/search/favorites" (click)="favoriteClick()">
+            Favoritos
+          </button>
+          <button mat-menu-item (click)="logout()">Cerrar Sesión</button>
+        </mat-menu>
+      </ng-template>
+    </div>
+  </nav>
+</mat-toolbar>

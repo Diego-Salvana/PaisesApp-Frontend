@@ -1,0 +1,16 @@
+.mat-form-field {
+   width: 100%;
+}
+
+.mat-option img {
+   margin-right: 1rem;
+   vertical-align: middle;
+}
+
+.mat-form-field ::ng-deep .mat-form-field-suffix {
+   align-self: center;
+}
+
+::ng-deep .mat-autocomplete-panel {
+   max-height: none !important;
+}
