@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HttpHeaders } from '@angular/common/http';
 import { MatOption } from '@angular/material/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
@@ -15,17 +14,16 @@ import { CountriesService } from '../../services/countries.service';
    styleUrls: ['./input-search.component.css'],
 })
 export class InputSearchComponent implements OnInit {
-   suggestions: any[] = [];
-   nameInput = new FormControl('');
-   isSend: boolean = false;
    @Input() appearanceInput: MatFormFieldAppearance = 'outline';
    @Input() labelInput: string = '';
    @Input() placeHolderInput: string = '';
    @Input() region: string = '';
    @Input() searchBy: 'country' | 'capital' = 'country';
    @Input() sessionValue: string = '';
+   suggestions: any[] = [];
+   nameInput = new FormControl('');
+   isSend: boolean = false;
    @Output() onSubmit = new EventEmitter<string>();
-   loaderHeaders = new HttpHeaders({ loader: 'off' });
 
    constructor(
       private countriesSvc: CountriesService,
@@ -64,7 +62,7 @@ export class InputSearchComponent implements OnInit {
 
    searchByName(value: string): void {
       this.countriesSvc
-         .getByName(value, this.loaderHeaders)
+         .getByName(value)
          .pipe(
             map((countries) =>
                countries.filter((country) => {
@@ -80,7 +78,7 @@ export class InputSearchComponent implements OnInit {
    }
 
    searchByCapital(value: string): void {
-      this.countriesSvc.getByCapital(value, this.loaderHeaders).subscribe({
+      this.countriesSvc.getByCapital(value).subscribe({
          next: (countries) => (this.suggestions = countries.splice(0, 5)),
          error: (err) => this.subsError(err),
       });

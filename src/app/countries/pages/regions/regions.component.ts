@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { HttpHeaders } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, Subscription } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
@@ -18,6 +19,7 @@ export class RegionsComponent implements OnInit, OnDestroy {
    private favoritesCountries: string[] = [];
    private subscription = new Subscription();
    private countriesList: Country[] = [];
+   private headers = new HttpHeaders({ loader: 'on' });
    filteredCountriesList: Country[] = [];
    region: string = '';
    isLoading$: Observable<boolean> = this.loaderSvc.isLoading$;
@@ -34,7 +36,7 @@ export class RegionsComponent implements OnInit, OnDestroy {
       this.activatedRoute.params
          .pipe(
             tap(({ id }) => (this.region = id)),
-            switchMap(({ id }) => this.countriesSvc.getByRegion(id))
+            switchMap(({ id }) => this.countriesSvc.getByRegion(id, this.headers))
          )
          .subscribe({
             next: (countries) => {

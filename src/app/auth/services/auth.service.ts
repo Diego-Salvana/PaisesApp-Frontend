@@ -7,8 +7,6 @@ import { BehaviorSubject, Observable, catchError, tap } from 'rxjs';
 import { FavoriteService } from './favorite.service';
 import { Auth, CurrentUser, ResponseUser, User } from 'src/app/interfaces/AuthUser.interface';
 
-type isLoader = 'On' | 'Off';
-
 @Injectable({
    providedIn: 'root',
 })
@@ -57,9 +55,7 @@ export class AuthService {
    }
 
    validateToken(): Observable<ResponseUser> {
-      const headers = new HttpHeaders({ loader: 'Off' });
-
-      return this.http.get<ResponseUser>(`${this.baseUsersUrl}/auth/refresh`, { headers }).pipe(
+      return this.http.get<ResponseUser>(`${this.baseUsersUrl}/auth/refresh`).pipe(
          tap(({ username, favorites, JWToken }) => {
             localStorage.setItem('JWToken', JWToken);
             this.currentUser.next({ username });

@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { HttpHeaders } from '@angular/common/http';
 import { Observable, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -17,6 +18,7 @@ import { Country } from 'src/app/interfaces/CountryRest.interface';
 export class CountriesComponent implements OnInit, OnDestroy {
    private favoritesCountries: string[] = [];
    private subscription = new Subscription();
+   private headers = new HttpHeaders({ loader: 'on' });
    countriesList: Country[] = [];
    selectedRegion: string = sessionStorage.getItem('region') || '';
    termSessionCountry: string = sessionStorage.getItem('country') || '';
@@ -54,7 +56,7 @@ export class CountriesComponent implements OnInit, OnDestroy {
 
    searchCountries(text: string): void {
       this.countriesSvc
-         .getByName(text)
+         .getByName(text, this.headers)
          .pipe(
             map((countries) =>
                countries.filter((country) => {

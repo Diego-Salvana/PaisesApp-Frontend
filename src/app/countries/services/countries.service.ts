@@ -40,9 +40,10 @@ export class CountriesService {
       });
    }
 
-   getByRegion(region: string): Observable<Country[]> {
+   getByRegion(region: string, headers?: HttpHeaders): Observable<Country[]> {
       return this.http.get<Country[]>(`${this.baseUrl}/region/${region}`, {
          params: this.cardParams,
+         headers,
       });
    }
 

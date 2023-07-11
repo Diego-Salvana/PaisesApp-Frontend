@@ -11,7 +11,7 @@ export class LoaderInterceptor implements HttpInterceptor {
    intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
       const loader = req.headers.get('loader');
 
-      if (loader === 'Off') return next.handle(req);
+      if (!loader) return next.handle(req);
 
       this.loaderSvc.show();
 
