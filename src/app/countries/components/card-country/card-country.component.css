@@ -10,6 +10,7 @@
 .mat-card-image {
    object-fit: contain;
    background-color: #eee;
+   border-bottom: 1px solid #ccc;
 }
 
 .expander {
