@@ -10,15 +10,15 @@ import { AuthService } from 'src/app/auth/services/auth.service';
    styleUrls: ['./search.component.css'],
 })
 export class SearchComponent implements OnInit, OnDestroy {
-   sidenavMode: MatDrawerMode = 'push';
+   private readonly minWidthLarge: string = '(min-width: 1280px)';
+   private readonly xSmallWidth: string = '(max-width: 599.98px)';
+   private subscription = new Subscription();
+   sidenavMode: MatDrawerMode = 'over';
    sidenavOpened!: boolean;
    sidenavDisableClose!: boolean;
    isLarge!: boolean;
-   private readonly minWidthLarge: string = '(min-width: 1280px)';
    isXSmall!: boolean;
-   private readonly xSmallWidth: string = '(max-width: 599.98px)';
    loggedUser: string = '';
-   private subscription = new Subscription();
 
    constructor(private breakpointObserver: BreakpointObserver, private authSvc: AuthService) {}
 
@@ -41,7 +41,7 @@ export class SearchComponent implements OnInit, OnDestroy {
                this.sidenavDisableClose = true;
             } else {
                this.isLarge = false;
-               this.sidenavMode = 'push';
+               this.sidenavMode = 'over';
                this.sidenavOpened = false;
                this.sidenavDisableClose = false;
             }
