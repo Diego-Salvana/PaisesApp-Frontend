@@ -17,9 +17,10 @@ import { Country } from 'src/app/interfaces/CountryRest.interface';
 })
 export class CountriesComponent implements OnInit, OnDestroy {
    private favoritesCountries: string[] = [];
+   private countriesList: Country[] = [];
    private subscription = new Subscription();
    private headers = new HttpHeaders({ loader: 'on' });
-   countriesList: Country[] = [];
+   filteredCountries: Country[] = [];
    selectedRegion: string = sessionStorage.getItem('region') || '';
    termSessionCountry: string = sessionStorage.getItem('country') || '';
    countriesForm = this.fb.group({
@@ -42,11 +43,15 @@ export class CountriesComponent implements OnInit, OnDestroy {
          (favList) => (this.favoritesCountries = favList)
       );
 
-      this.countriesForm.valueChanges.subscribe(() => {
-         this.selectedRegion = <string>this.countriesForm.get('region')?.value;
-         this.selectedRegion
-            ? sessionStorage.setItem('region', this.selectedRegion)
-            : sessionStorage.removeItem('region');
+      this.countriesForm.valueChanges.subscribe(({ region }) => {
+         this.selectedRegion = region || '';
+         if (region) {
+            sessionStorage.setItem('region', this.selectedRegion);
+            this.filteredCountries = this.filterByRegion(this.countriesList);
+         } else {
+            sessionStorage.removeItem('region');
+            this.filteredCountries = this.countriesList;
+         }
       });
    }
 
@@ -58,28 +63,33 @@ export class CountriesComponent implements OnInit, OnDestroy {
       this.countriesSvc
          .getByName(text, this.headers)
          .pipe(
-            map((countries) =>
-               countries.filter((country) => {
-                  const countryRegion = country.region.toLowerCase();
-                  return countryRegion === (this.selectedRegion || countryRegion);
-               })
-            ),
+            map((countries) => {
+               this.countriesList = countries;
+               return this.filterByRegion(countries);
+            }),
             tap((filteredCountries) => {
                if (filteredCountries.length < 1) throw new Error(`No results for "${text}"`);
             })
          )
          .subscribe({
             next: (filteredCountries) => {
-               this.countriesList = filteredCountries;
+               this.filteredCountries = filteredCountries;
                sessionStorage.setItem('country', text);
             },
             error: (error) => {
                console.error(error);
-               this.countriesList = [];
+               this.filteredCountries = [];
                sessionStorage.removeItem('country');
                this.matSnackBar.open(`Sin resultados para "${text}"`, 'X', { duration: 3000 });
             },
          });
+   }
+
+   filterByRegion(countries: Country[]): Country[] {
+      return countries.filter((country) => {
+         const countryRegion = country.region.toLowerCase();
+         return countryRegion === (this.selectedRegion || countryRegion);
+      });
    }
 
    checkIsFavorite(cca3: string): boolean {

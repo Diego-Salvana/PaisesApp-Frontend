@@ -28,7 +28,7 @@
 
 <ng-template #countriesGrid>
   <section class="grid-cards-container">
-    <div class="grid-cards-item" *ngFor="let country of countriesList">
+    <div class="grid-cards-item" *ngFor="let country of filteredCountries">
       <app-card-country
         [country]="country"
         [isFavorite]="checkIsFavorite(country.cca3)"
