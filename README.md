@@ -23,3 +23,6 @@ La aplicación permite explorar información sobre países de todo el mundo, gra
    ng serve --open
    ```
 
+ ## Repositorio Backend
+ - Link: [Países App Backend](https://github.com/Diego-Salvana/PaisesApp-Backend)
+
