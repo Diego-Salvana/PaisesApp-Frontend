@@ -1,0 +1,42 @@
+<section class="search-form-container">
+  <h2>Encontrar por su nombre y/o continente</h2>
+
+  <form [formGroup]="countriesForm" class="search-form" autocomplete="off">
+    <app-input-search
+      class="search-form__input-text"
+      [region]="selectedRegion ?? ''"
+      placeHolderInput="Nombre del país..."
+      [sessionValue]="termSessionCountry"
+      (onSubmit)="searchCountries($event)">
+    </app-input-search>
+
+    <mat-form-field appearance="outline" class="search-form__select">
+      <mat-label>Continente</mat-label>
+      <mat-select formControlName="region">
+        <mat-option>Todos</mat-option>
+        <mat-option value="africa">África</mat-option>
+        <mat-option value="americas">América</mat-option>
+        <mat-option value="asia">Asia</mat-option>
+        <mat-option value="europe">Europa</mat-option>
+        <mat-option value="oceania">Oceanía</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</section>
+
+<section class="countries" [class.no-background]="filteredCountries.length > 0">
+  <div class="loader-bar" *ngIf="isLoading$ | async; else countriesGrid">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+
+  <ng-template #countriesGrid>
+    <div class="grid-cards-container">
+      <div class="grid-cards-item" *ngFor="let country of filteredCountries">
+        <app-card-country
+          [country]="country"
+          [isFavorite]="checkIsFavorite(country.cca3)">
+        </app-card-country>
+      </div>
+    </div>
+  </ng-template>
+</section>

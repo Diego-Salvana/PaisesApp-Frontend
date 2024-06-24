@@ -3,5 +3,7 @@
     <router-outlet></router-outlet>
   </div>
 
-  <button mat-button routerLink="/search" type="button" class="btn-back">Volver</button>
+  <div class="btn-container">
+    <app-go-back-button [showArrow]="false" [whiteBtn]="true"></app-go-back-button>
+  </div>
 </section>

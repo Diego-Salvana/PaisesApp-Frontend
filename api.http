@@ -1,0 +1,3 @@
+### Get countries
+GET https://restcountries.com/v3.1/name/arg
+Content-Type: application/json

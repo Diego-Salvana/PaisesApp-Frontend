@@ -1,0 +1,32 @@
+<section class="search-form-container">
+  <h2>Encontrar en favoritos</h2>
+
+  <form class="search-form" autocomplete="off">
+    <app-input-filter
+      class="search-form__input-text"
+      (onInput)="searchCountry($event)">
+    </app-input-filter>
+  </form>
+</section>
+
+<section>
+  <div class="loader-bar" *ngIf="false; else countriesGrid">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+
+  <ng-template #countriesGrid>
+    <h2 class="info-text" *ngIf="withoutFavorites && filteredCountriesList.length < 1">
+      Aún no hay favoritos.
+    </h2>
+  
+    <div class="grid-cards-container">
+      <div class="grid-cards-item" *ngFor="let country of filteredCountriesList">
+        <app-card-country
+          [country]="country"
+          [isFavorite]="checkIsFavorite(country.cca3)"
+          (onFavoriteRemoved)="updateFavorites($event)">
+        </app-card-country>
+      </div>
+    </div>
+  </ng-template>
+</section>

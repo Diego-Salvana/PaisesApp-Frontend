@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { NgModule } from '@angular/core'
+import { RouterModule, Routes } from '@angular/router'
 
-import { MainComponent } from './pages/main/main.component';
-import { LoginComponent } from './pages/login/login.component';
-import { RegisterComponent } from './pages/register/register.component';
+import { LoginComponent } from './components/login/login.component'
+import { MainComponent } from './pages/main/main.component'
+import { RegisterComponent } from './components/register/register.component'
 
 const routes: Routes = [
    {
@@ -12,13 +12,13 @@ const routes: Routes = [
       children: [
          { path: 'login', component: LoginComponent },
          { path: 'register', component: RegisterComponent },
-         { path: '**', redirectTo: 'login' },
-      ],
-   },
-];
+         { path: '**', redirectTo: 'login' }
+      ]
+   }
+]
 
 @NgModule({
    imports: [RouterModule.forChild(routes)],
-   exports: [RouterModule],
+   exports: [RouterModule]
 })
 export class AuthRoutingModule {}

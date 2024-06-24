@@ -33,11 +33,21 @@ ul {
    margin: auto;
 }
 
-/* Estilos de formularios de búsqueda */
+/* Search forms styles */
+.search-form-container {
+   display: flex;
+   flex-direction: column;
+}
+
+.search-form-container h2 {
+   text-align: center;
+   padding: 16px 16px 0;
+}
+
 .search-form {
    width: 90%;
    margin: auto;
-   padding: 15px 0;
+   padding: 16px 0;
    display: flex;
    align-items: flex-start;
    flex-direction: column;
@@ -56,13 +66,43 @@ ul {
 }
 
 @media screen and (min-width: 800px) {
-   .search-form__input-text {
-      width: 60%;
-      max-width: 600px;
+   .search-form-container h2 {
+      font-size: 24px;
    }
+
    .search-form {
       flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
+      width: max-content;
+   }
+
+   .search-form__input-text {
+      width: 50vw;
+      max-width: 600px;
+   }
+}
+
+/* Search-page background styles */
+.countries {
+   background: url("src/assets/cartography.png");
+   background-size: contain;
+   background-repeat: no-repeat;
+   background-position: center 50px;
+   flex-grow: 1;
+}
+
+.no-background {
+   background: none;
+}
+
+@media screen and (min-width: 768px) {
+   .countries {
+      background-size: 60%;
+      background-position: center 80px;
+   }
+}
+
+@media screen and (min-width: 1440px) {
+   .countries {
+      background-size: 54%;
    }
 }

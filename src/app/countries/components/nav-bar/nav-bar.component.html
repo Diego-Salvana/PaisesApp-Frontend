@@ -19,9 +19,9 @@
           </ng-container>
 
           <ng-template #user>
-            <div class="mat-menu__user"><b>Pepe</b></div>
+            <div class="mat-menu__user"><b>{{ loggedUser }}</b></div>
             <mat-divider></mat-divider>
-            <button mat-menu-item routerLink="/search/favorites">Favoritos</button>
+            <button mat-menu-item (click)="profileAlert()">Perfil</button>
             <button mat-menu-item (click)="logout()">Cerrar Sesión</button>
           </ng-template>
         </mat-menu>
@@ -42,10 +42,12 @@
         </button>
 
         <mat-menu #menuUser>
-          <button mat-menu-item routerLink="/search/favorites" (click)="favoriteClick()">
-            Favoritos
+          <button mat-menu-item (click)="profileAlert()" (click)="favoriteClick()">
+            Perfil
           </button>
-          <button mat-menu-item (click)="logout()">Cerrar Sesión</button>
+          <button mat-menu-item (click)="logout()">
+            Cerrar Sesión
+          </button>
         </mat-menu>
       </ng-template>
     </div>

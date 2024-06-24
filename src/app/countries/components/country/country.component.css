@@ -1,0 +1,69 @@
+.btn-container {
+   padding: 1rem 4vw 0;
+}
+
+.loader-bar {
+   margin-top: 4rem;
+}
+
+.country-container {
+   max-width: 500px;
+   padding: 4vh 4vw 1.25rem;
+   display: flex;
+   flex-direction: column;
+}
+
+.flag {
+   width: 100%;
+   max-width: 500px;
+}
+
+.flag img {
+   width: 100%;
+   border: 5px solid #c0c0c0;
+   border-radius: 5px;
+}
+
+.info {
+   width: 100%;
+   margin-top: 3.125rem;
+}
+
+.info h2 {
+   font-size: 20px;
+}
+
+.info__border-countries span {
+   padding-right: 1rem;
+}
+
+.mat-chip {
+   cursor: pointer;
+   user-select: none;
+}
+
+@media screen and (min-width: 576px) {
+   .info h2 {
+      font-size: 24px;
+   }
+}
+
+@media screen and (min-width: 992px) {
+   .country-container {
+      max-width: none;
+      flex-direction: row;
+   }
+
+   .info {
+      margin-top: 0;
+      padding-left: 10vw;
+   }
+
+   .info__details {
+      display: flex;
+   }
+
+   .info__details--1 {
+      padding-right: 5vw;
+   }
+}

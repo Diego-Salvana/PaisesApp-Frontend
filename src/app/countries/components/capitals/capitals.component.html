@@ -1,0 +1,30 @@
+<section class="search-form-container">
+  <h2>Encontrar por su capital</h2>
+
+  <form class="search-form" autocomplete="off">
+    <app-input-search
+      class="search-form__input-text"
+      placeHolderInput="Nombre de la capital..."
+      searchBy="capital"
+      [sessionValue]="termSessionCapital"
+      (onSubmit)="searchCountries($event)">
+    </app-input-search>
+  </form>
+</section>
+
+<section class="countries" [class.no-background]="countriesList.length > 0">
+  <div class="loader-bar" *ngIf="isLoading$ | async; else countriesGrid">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+
+  <ng-template #countriesGrid>
+    <div class="grid-cards-container">
+      <div class="grid-cards-item" *ngFor="let country of countriesList">
+        <app-card-country
+          [country]="country"
+          [isFavorite]="checkIsFavorite(country.cca3)">
+        </app-card-country>
+      </div>
+    </div>
+  </ng-template>
+</section>

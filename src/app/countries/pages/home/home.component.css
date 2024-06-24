@@ -49,15 +49,18 @@
 .mat-spinner {
    margin: auto;
 }
+
 @media screen and (min-width: 600px) {
    .home {
       padding-top: 64px;
    }
+
    .form-container {
       padding-left: 3rem;
       padding-right: 3rem;
       margin-top: 30vh;
    }
+
    .btn-enter {
       width: max-content;
       padding: 2rem 4rem;

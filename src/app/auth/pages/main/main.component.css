@@ -50,19 +50,14 @@
    0% {
       transform: rotate(0deg);
    }
+
    50% {
       transform: rotate(-180deg);
    }
+
    100% {
       transform: rotate(-360deg);
    }
-}
-
-.btn-back {
-   margin-top: 2rem;
-   color: white;
-   font-size: 1rem;
-   border: 1px solid white;
 }
 
 ::ng-deep .mat-simple-snackbar {
@@ -74,16 +69,25 @@
       padding-left: 2rem;
       padding-right: 2rem;
    }
+
    .main-form ::ng-deep .form-title {
       font-size: 2.2rem;
    }
+
    .main-form ::ng-deep .btn-submit {
       width: 60%;
    }
+
    .padding-top-login {
       padding-top: 10vh;
    }
+
    .padding-top-register {
       padding-top: 5vh;
    }
+}
+
+.btn-container {
+   padding-top: 2rem;
+   text-align: center;
 }

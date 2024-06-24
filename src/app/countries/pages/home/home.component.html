@@ -2,17 +2,21 @@
   <app-nav-bar></app-nav-bar>
 </header>
 
-<section class="home">
+<main class="home">
   <div class="form-container">
     <form class="form-home" autocomplete="off">
       <app-input-search
         appearanceInput="fill"
         class="search-form__input-text"
         labelInput="Buscar país"
-        (onSubmit)="searchCountry($event)"
-      ></app-input-search>
+        (onSubmit)="searchCountry($event)">
+      </app-input-search>
     </form>
 
-    <button mat-raised-button color="primary" class="btn-enter" routerLink="/search">INGRESAR</button>
+    <!-- TODO: borrar session storage al hacer click en empezar -->
+     
+    <button mat-raised-button color="primary" class="btn-enter" routerLink="/search">
+      EMPEZAR
+    </button>
   </div>
-</section>
+</main>

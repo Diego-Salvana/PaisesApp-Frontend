@@ -14,7 +14,7 @@ export class FavoriteService {
 
    constructor(private http: HttpClient) {}
 
-   updateFavoritesList(favList: string[] = []) {
+   updateFavoritesList (favList: string[] = []) {
       this.favoritesList.next(favList);
    }
 

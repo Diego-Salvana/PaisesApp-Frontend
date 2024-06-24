@@ -1,27 +1,25 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core'
+import { BrowserModule } from '@angular/platform-browser'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { HttpClientModule } from '@angular/common/http'
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { AngularMaterialModule } from './angular-material/angular-material.module';
-import { AuthenticationInterceptor } from './interceptors/authentication.interceptor';
-import { LoaderInterceptor } from './interceptors/loader.interceptor';
+import { AngularMaterialModule } from './angular-material/angular-material.module'
+import { AppRoutingModule } from './app-routing.module'
+import { SharedModule } from './shared/shared.module'
+
+import { AppComponent } from './app.component'
+import { UserProfileComponent } from './auth/components/user-profile/user-profile.component'
 
 @NgModule({
-   declarations: [AppComponent],
+   declarations: [AppComponent, UserProfileComponent],
    imports: [
-      BrowserModule,
+      AngularMaterialModule,
       AppRoutingModule,
       BrowserAnimationsModule,
-      AngularMaterialModule,
+      BrowserModule,
       HttpClientModule,
+      SharedModule
    ],
-   providers: [
-      { provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true },
-      { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
-   ],
-   bootstrap: [AppComponent],
+   bootstrap: [AppComponent]
 })
 export class AppModule {}
