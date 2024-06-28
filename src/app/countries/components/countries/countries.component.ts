@@ -8,7 +8,7 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 import { CountriesService } from '../../services/countries.service'
 import { FavoriteService } from 'src/app/auth/services/favorite.service'
 import { LoaderService } from '../../services/loader.service'
-import { Country } from 'src/app/interfaces/CountryRest.interface'
+import { CountryCard } from 'src/app/interfaces/Country.interface'
 
 @Component({
    selector: 'app-countries',
@@ -17,10 +17,10 @@ import { Country } from 'src/app/interfaces/CountryRest.interface'
 })
 export class CountriesComponent implements OnInit, OnDestroy {
    private favoritesCountries: string[] = []
-   private countriesList: Country[] = []
+   private countriesList: CountryCard[] = []
    private subscription = new Subscription()
    private headers = new HttpHeaders({ loader: 'on' })
-   filteredCountries: Country[] = []
+   filteredCountries: CountryCard[] = []
    selectedRegion = sessionStorage.getItem('region')
    termSessionCountry: string = sessionStorage.getItem('country') ?? ''
    countriesForm = this.fb.group({
@@ -87,9 +87,9 @@ export class CountriesComponent implements OnInit, OnDestroy {
          })
    }
 
-   filterByRegion (countries: Country[]): Country[] {
+   filterByRegion (countries: CountryCard[]): CountryCard[] {
       return countries.filter(country => {
-         const countryRegion = country.region.toLowerCase()
+         const countryRegion = country.continent.toLowerCase()
 
          return this.selectedRegion !== null
             ? this.selectedRegion === countryRegion

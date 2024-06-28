@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router'
 import { switchMap, tap } from 'rxjs/operators'
 
 import { CountriesService } from '../../services/countries.service'
-import { Country } from 'src/app/interfaces/CountryRest.interface'
+import { Border, Country } from 'src/app/interfaces/Country.interface'
 
 @Component({
    selector: 'app-country',
@@ -12,7 +12,7 @@ import { Country } from 'src/app/interfaces/CountryRest.interface'
 })
 export class CountryComponent implements OnInit {
    country!: Country
-   borders: Country[] = []
+   borders: Border[] = []
    nativeName: string = ''
 
    constructor (private activatedRoute: ActivatedRoute, private countriesService: CountriesService) {}
@@ -21,16 +21,12 @@ export class CountryComponent implements OnInit {
       this.activatedRoute.params
          .pipe(
             switchMap(({ id: cca3 }) =>
-               this.countriesService.getByCca3(cca3, this.countriesService.fullCountryParams)
+               this.countriesService.getByCode3(cca3)
             ),
-            tap(([country]) => (this.country = country)),
-            tap(([country]) => {
-               const firstKey = Object.keys(country.name.nativeName as object)[0]
-               const nativeObj = country.name.nativeName ?? {}
-               this.nativeName = nativeObj[`${firstKey}`].common
-            }),
-            switchMap(([country]) =>
-               this.countriesService.getByCca3(country.borders ?? [], this.countriesService.borderParams)
+            tap((country) => (this.country = country)),
+            tap((country) => { this.nativeName = country.nativeName }),
+            switchMap((country) =>
+               this.countriesService.getBorders(country.borders)
             )
          )
          .subscribe({

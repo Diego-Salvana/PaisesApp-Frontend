@@ -1,12 +1,15 @@
 <mat-card (click)="goToCountry()">
-  <img mat-card-image [src]="country.flags.svg" />
+  <img mat-card-image src="https://flagcdn.com/w320/{{ country.code2.toLocaleLowerCase() }}.png" />
+
   <div class="expander"></div>
+
   <mat-card-content>
-    <h3>{{ country.translations["spa"].common }}</h3>
+    <h3>{{ country.nameSpa }}</h3>
     <p><b>Habitantes:</b> {{ country.population | number }}</p>
-    <p><b>Región:</b> {{ country.region | regionTraductor }}</p>
+    <p><b>Región:</b> {{ country.continent | regionTraductor }}</p>
     <p><b>Capital:</b> {{ country.capital || "-" }}</p>
   </mat-card-content>
+  
   <mat-card-actions align="end">
     <button mat-icon-button *ngIf="(currentUser | async)?.username">
       <mat-icon

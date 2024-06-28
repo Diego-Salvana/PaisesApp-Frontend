@@ -66,7 +66,7 @@ export class InputSearchComponent implements OnInit {
          .pipe(
             map((countries) =>
                countries.filter((country) => {
-                  const countryRegion = country.region.toLowerCase()
+                  const countryRegion = country.continent.toLowerCase()
                   return countryRegion === (this.region || countryRegion)
                })
             )

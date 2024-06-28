@@ -23,7 +23,7 @@
       <div class="grid-cards-item" *ngFor="let country of filteredCountriesList">
         <app-card-country
           [country]="country"
-          [isFavorite]="checkIsFavorite(country.cca3)"
+          [isFavorite]="checkIsFavorite(country.code3)"
           (onFavoriteRemoved)="updateFavorites($event)">
         </app-card-country>
       </div>

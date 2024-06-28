@@ -1,3 +1,7 @@
 ### Get countries
 GET https://restcountries.com/v3.1/name/arg
 Content-Type: application/json
+
+### Get by code
+GET https://restcountries.com/v3.1/alpha?codes=arg
+Content-Type: application/json

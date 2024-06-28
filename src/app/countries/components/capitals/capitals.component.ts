@@ -5,8 +5,8 @@ import { Observable, Subscription } from 'rxjs'
 import { CountriesService } from '../../services/countries.service'
 import { FavoriteService } from 'src/app/auth/services/favorite.service'
 import { LoaderService } from '../../services/loader.service'
-import { Country } from 'src/app/interfaces/CountryRest.interface'
 import { HttpHeaders } from '@angular/common/http'
+import { CountryCard } from 'src/app/interfaces/Country.interface'
 
 @Component({
    selector: 'app-capitals',
@@ -17,7 +17,7 @@ export class CapitalsComponent implements OnInit, OnDestroy {
    private favoritesCountries: string[] = []
    private subscription = new Subscription()
    private headers = new HttpHeaders({ loader: 'on' })
-   countriesList: Country[] = []
+   countriesList: CountryCard[] = []
    termSessionCapital: string = sessionStorage.getItem('capital') ?? ''
    isLoading$: Observable<boolean> = this.loaderSvc.isLoading$
 

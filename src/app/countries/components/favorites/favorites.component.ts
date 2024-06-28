@@ -4,8 +4,8 @@ import { filter, switchMap, tap } from 'rxjs/operators'
 
 import { CountriesService } from '../../services/countries.service'
 import { FavoriteService } from 'src/app/auth/services/favorite.service'
-import { Country } from 'src/app/interfaces/CountryRest.interface'
 import { MatSnackBar } from '@angular/material/snack-bar'
+import { CountryCard } from 'src/app/interfaces/Country.interface'
 
 @Component({
    selector: 'app-favorites',
@@ -16,25 +16,23 @@ export class FavoritesComponent implements OnInit, OnDestroy {
    private favoritesCountries: string[] = []
    private subscription = new Subscription()
    private searchTerm: string = ''
-   private countriesList: Country[] = []
-   filteredCountriesList: Country[] = []
+   private countriesList: CountryCard[] = []
+   filteredCountriesList: CountryCard[] = []
    withoutFavorites: boolean = false
 
    constructor (
-      private countriesSvc: CountriesService,
-      private favoriteSvc: FavoriteService,
+      private countriesService: CountriesService,
+      private favoriteService: FavoriteService,
       private matSnackBar: MatSnackBar
    ) {}
 
    ngOnInit (): void {
-      this.subscription = this.favoriteSvc.favoritesList$
+      this.subscription = this.favoriteService.favoritesList$
          .pipe(
             tap((favList) => (this.withoutFavorites = favList.length < 1)),
             filter((favList) => favList.length > 0),
             tap((favList) => (this.favoritesCountries = favList)),
-            switchMap((favList) =>
-               this.countriesSvc.getByCca3(favList, this.countriesSvc.cardParams)
-            )
+            switchMap((favList) => this.countriesService.getByCodeList(favList))
          )
          .subscribe({
             next: (countries) => {
@@ -50,7 +48,7 @@ export class FavoritesComponent implements OnInit, OnDestroy {
    }
 
    updateFavorites (cca3: string): void {
-      this.countriesList = this.countriesList.filter((country) => country.cca3 !== cca3)
+      this.countriesList = this.countriesList.filter((country) => country.code3 !== cca3)
       this.filterCountries(this.searchTerm)
    }
 
@@ -61,7 +59,7 @@ export class FavoritesComponent implements OnInit, OnDestroy {
 
    filterCountries (term: string = ''): void {
       this.filteredCountriesList = this.countriesList.filter((country) => {
-         const countryName = country.translations['spa'].common.toLowerCase()
+         const countryName = country.nameSpa.toLowerCase()
          return countryName.includes(term.toLowerCase())
       })
 

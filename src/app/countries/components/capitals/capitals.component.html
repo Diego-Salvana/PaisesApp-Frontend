@@ -22,7 +22,7 @@
       <div class="grid-cards-item" *ngFor="let country of countriesList">
         <app-card-country
           [country]="country"
-          [isFavorite]="checkIsFavorite(country.cca3)">
+          [isFavorite]="checkIsFavorite(country.code3)">
         </app-card-country>
       </div>
     </div>

@@ -1,4 +1,4 @@
-export interface Country {
+export interface RestCountry {
    altSpellings: string[]
    area: number
    borders?: string[]

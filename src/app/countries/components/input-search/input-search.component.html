@@ -1,6 +1,7 @@
 <form (ngSubmit)="submitInput()">
   <mat-form-field [appearance]="appearanceInput" class="search-form__input-text">
     <mat-label *ngIf="labelInput">{{ labelInput }}</mat-label>
+
     <input
       type="text"
       matInput
@@ -10,13 +11,14 @@
       (input)="isSend = false"
       (focus)="isSend = false; searchSuggestions(nameInput.value)"
     />
+    
     <mat-icon matPrefix>search</mat-icon>
 
     <mat-autocomplete #auto (optionSelected)="onOptionSelected($event.option)">
       <ng-container *ngIf="suggestions.length > 0">
         <mat-option *ngFor="let country of suggestions" [value]="country.cca3">
-          <img [src]="country.flags.svg" height="25" />
-          <span>{{ country.translations["spa"].common }}</span> |
+          <img src="https://flagcdn.com/w320/{{ country.code2.toLocaleLowerCase() }}.png" height="25" />
+          <span>{{ country.nameSpa }}</span> |
           <small>Población: {{ country.population | number }}</small>
         </mat-option>
         <mat-divider></mat-divider>
