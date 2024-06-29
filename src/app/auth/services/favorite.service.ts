@@ -8,9 +8,9 @@ import { environment } from 'src/environments/environment'
    providedIn: 'root'
 })
 export class FavoriteService {
+   private baseUrl: string = `${environment.baseUsersUrl}/favorites`
    private favoritesList = new BehaviorSubject<string[]>([])
    favoritesList$ = this.favoritesList.asObservable()
-   private baseUrl: string = `${environment.baseUsersUrl}/favorites`
 
    constructor (private http: HttpClient) {}
 
@@ -18,22 +18,21 @@ export class FavoriteService {
       this.favoritesList.next(favList)
    }
 
-   addFavorite (cca3Code: string): void {
+   addFavorite (code3: string): void {
       const currentfavorites = this.favoritesList.getValue()
-      const updatedFavs = [...currentfavorites, cca3Code]
-      this.favoritesList.next(updatedFavs)
+      this.favoritesList.next([...currentfavorites, code3])
 
-      this.http.patch<ResponseFavorites>(`${this.baseUrl}/add`, { cca3Code }).subscribe({
+      this.http.patch<ResponseFavorites>(`${this.baseUrl}/add/${code3}`, {}).subscribe({
          error: () => this.favoritesList.next(currentfavorites)
       })
    }
 
-   removeFavorite (cca3Code: string): void {
+   removeFavorite (code3: string): void {
       const currentfavorites = this.favoritesList.getValue()
-      const updatedFavs = currentfavorites.filter((cca3) => cca3 !== cca3Code)
+      const updatedFavs = currentfavorites.filter(cca3 => cca3 !== code3)
       this.favoritesList.next(updatedFavs)
 
-      this.http.patch<ResponseFavorites>(`${this.baseUrl}/remove`, { cca3Code }).subscribe({
+      this.http.patch<ResponseFavorites>(`${this.baseUrl}/remove/${code3}`, {}).subscribe({
          error: () => this.favoritesList.next(currentfavorites)
       })
    }

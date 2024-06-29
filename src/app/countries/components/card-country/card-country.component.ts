@@ -19,26 +19,26 @@ export class CardCountryComponent implements OnInit {
 
    constructor (
       private router: Router,
-      private favoriteSvc: FavoriteService,
-      private authSvc: AuthService
+      private favoriteService: FavoriteService,
+      private authService: AuthService
    ) {}
 
    ngOnInit (): void {
-      this.currentUser = this.authSvc.currentUser$
+      this.currentUser = this.authService.currentUser$
    }
 
    goToCountry (): void {
       void this.router.navigate(['/search', 'country', this.country.code3])
    }
 
-   addFavorite (evento: Event): void {
-      evento.stopPropagation()
-      this.favoriteSvc.addFavorite(this.country.code3)
+   addFavorite (event: Event): void {
+      event.stopPropagation()
+      this.favoriteService.addFavorite(this.country.code3)
    }
 
-   removeFavorite (evento: Event): void {
-      evento.stopPropagation()
-      this.favoriteSvc.removeFavorite(this.country.code3)
+   removeFavorite (event: Event): void {
+      event.stopPropagation()
+      this.favoriteService.removeFavorite(this.country.code3)
       this.onFavoriteRemoved.emit(this.country.code3)
    }
 }

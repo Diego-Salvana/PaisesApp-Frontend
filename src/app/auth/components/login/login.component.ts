@@ -21,7 +21,7 @@ export class LoginComponent {
 
    constructor (
       private formBuilder: FormBuilder,
-      private authSvc: AuthService,
+      private authService: AuthService,
       private router: Router,
       private matSnakBar: MatSnackBar
    ) {}
@@ -30,14 +30,14 @@ export class LoginComponent {
       if (this.loginForm.invalid) return
 
       this.btnDisabled = true
-      this.authSvc.loginUser(this.loginForm.value).subscribe({
+      this.authService.loginUser(this.loginForm.value).subscribe({
          next: () => {
             this.btnDisabled = false
             void this.router.navigate(['/search', 'by-country'])
          },
-         error: (err) => {
+         error: (e) => {
             this.btnDisabled = false
-            this.matSnakBar.open(err, 'X', { duration: 3000 })
+            this.matSnakBar.open(e.message, 'X', { duration: 3000 })
          }
       })
    }

@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { AuthService } from '../../services/auth.service'
 import { Router } from '@angular/router'
 import { MatSnackBar } from '@angular/material/snack-bar'
+import { AuthService } from '../../services/auth.service'
 import { emailValidator, passwordMatchValidator } from '../../utils/validations.handler'
 
 @Component({
    selector: 'app-register',
    templateUrl: './register.component.html',
    styleUrls: ['./register.component.css']
+   
 })
 export class RegisterComponent implements OnInit {
    registerForm: FormGroup = this.formBuilder.group({
@@ -24,7 +25,7 @@ export class RegisterComponent implements OnInit {
 
    constructor (
       private formBuilder: FormBuilder,
-      private authSvc: AuthService,
+      private authService: AuthService,
       private router: Router,
       private matSnakBar: MatSnackBar
    ) {}
@@ -40,14 +41,14 @@ export class RegisterComponent implements OnInit {
       if (this.registerForm.invalid) return
 
       this.btnDisabled = true
-      this.authSvc.registerUser(this.registerForm.value).subscribe({
+      this.authService.registerUser(this.registerForm.value).subscribe({
          next: () => {
             this.btnDisabled = false
             void this.router.navigate(['/search', 'by-country'])
          },
-         error: (err) => {
+         error: (e) => {
             this.btnDisabled = false
-            this.matSnakBar.open(err, 'X', { duration: 3000 })
+            this.matSnakBar.open(e.message, 'X', { duration: 3000 })
          }
       })
    }
@@ -65,6 +66,8 @@ export class RegisterComponent implements OnInit {
    }
 
    confirmPasswordError (): string {
-      if (this.registerForm.controls['confirmPassword'].hasError('required')) { return 'El campo es requerido.' } else if (this.registerForm.controls['confirmPassword'].hasError('minlength')) { return 'Mínimo 6 caracteres.' } else return 'Las contraseñas no coinciden.'
+      if (this.registerForm.controls['confirmPassword'].hasError('required')) return 'El campo es requerido.'
+      else if (this.registerForm.controls['confirmPassword'].hasError('minlength')) return 'Mínimo 6 caracteres.'
+      else return 'Las contraseñas no coinciden.'
    }
 }

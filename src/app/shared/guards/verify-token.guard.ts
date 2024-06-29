@@ -8,31 +8,33 @@ import { AuthService } from '../../auth/services/auth.service'
    providedIn: 'root'
 })
 export class VerifyTokenGuard implements CanActivate, CanLoad {
-   private loggedUser?: string
+   private user: string | null = null
 
    constructor (private authService: AuthService, private router: Router) {
       this.authService.currentUser$.subscribe(
-         currentUser => (this.loggedUser = currentUser.username)
+         currentUser => (this.user = currentUser.username ?? null)
       )
    }
 
    canActivate (route: ActivatedRouteSnapshot): Observable<boolean> | boolean {
       const path = route.routeConfig?.path
       
-      if (this.loggedUser) return path === 'favorites'
+      if (this.user !== null) return path === 'favorites'
       else if (path === 'favorites') return this.favoritesActivate()
       else if (path === 'auth') return this.authActivate()
       else return false
    }
 
    canLoad (): Observable<boolean> | boolean {
-      if (this.loggedUser) return false
+      if (this.user !== null) return false
       else return this.authActivate()
    }
 
    favoritesActivate (): Observable<boolean> {
       return this.authService.validateToken().pipe(
-         map(() => true),
+         map(() => {
+            return true
+         }),
          catchError(() => {
             void this.router.navigate(['/search/by-country'])
             return of(false)
@@ -46,7 +48,9 @@ export class VerifyTokenGuard implements CanActivate, CanLoad {
             void this.router.navigate(['/search/by-country'])
             return false
          }),
-         catchError(() => of(true))
+         catchError(() => {
+            return of(true)
+         })
       )
    }
 }
