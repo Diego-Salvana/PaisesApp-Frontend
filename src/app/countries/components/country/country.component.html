@@ -2,14 +2,14 @@
   <app-go-back-button></app-go-back-button>
 </div>
 
-<div class="loader-bar" *ngIf="false; else infoCountry">
+<div class="loader-bar" *ngIf="loadingCountry | async; else infoCountry">
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </div>
 
 <ng-template #infoCountry>
   <section *ngIf="country" class="country-container">
     <div class="flag">
-      <img src="https://flagcdn.com/w320/{{ country.code2.toLocaleLowerCase() }}.png" />
+      <img src="https://flagcdn.com/w640/{{ country.code2.toLocaleLowerCase() }}.png" />
     </div>
 
     <div class="info">
@@ -17,7 +17,7 @@
 
       <div class="info__details">
         <div class="info__details--1">
-          <p><b>Nombre Nativo: </b>{{ nativeName }}</p>
+          <p><b>Nombre Nativo: </b>{{ country.nativeName }}</p>
           <p><b>Habitantes: </b>{{ country.population | number }}</p>
           <p><b>Área: </b>{{ country.area | number }} km<sup>2</sup></p>
           <p><b>Región: </b>{{ country.region | regionTraductor }}</p>
@@ -40,13 +40,17 @@
 
       <div class="info__border-countries">
         <mat-chip-list>
-          <span><b>Países Limítrofes:</b></span>
+          <span class="borders-label"><b>Países Limítrofes:</b></span>
 
-          <span *ngIf="borders.length < 1">No posee</span>
+          <div *ngIf="loadingBorders | async; else borderNames" class="loader-dots"></div>
 
-          <mat-chip color="basic" *ngFor="let border of borders" routerLink="../{{ border.code3 }}">
-            {{ border.nameSpa }}
-          </mat-chip>
+          <ng-template #borderNames>
+            <span *ngIf="borders.length < 1">No posee</span>
+
+            <mat-chip color="basic" *ngFor="let border of borders" routerLink="../{{ border.code3 }}">
+              {{ border.nameSpa }}
+            </mat-chip>
+          </ng-template>
         </mat-chip-list>
       </div>
     </div>

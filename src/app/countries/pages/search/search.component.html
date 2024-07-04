@@ -7,9 +7,9 @@
     #sidenav [mode]="sidenavMode"
     fixedInViewport="true"
     [opened]="sidenavOpened"
-    [disableClose]="sidenavDisableClose">
-    <ng-container *ngIf="isXSmall"
+    [disableClose]="sidenavDisableClose"
   >
+    <ng-container *ngIf="isXSmall">
       <ng-container *ngIf="!loggedUser; else user">
         <h3 routerLink="/auth/login" class="go-login">Iniciar Sesión</h3>
       </ng-container>
@@ -19,7 +19,7 @@
           <b>{{ loggedUser }}</b>
         </h3>
         <ul>
-          <li matRipple routerLink="profile" routerLinkActive="active" (click)="close(sidenav)">
+          <li matRipple routerLink="/profile" routerLinkActive="active" (click)="close(sidenav)">
             Perfil
           </li>
           <li matRipple routerLinkActive="active" (click)="close(sidenav); logout()">

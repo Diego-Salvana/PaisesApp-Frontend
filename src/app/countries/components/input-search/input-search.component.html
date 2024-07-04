@@ -1,29 +1,38 @@
 <form (ngSubmit)="submitInput()">
-  <mat-form-field [appearance]="appearanceInput" class="search-form__input-text">
-    <mat-label *ngIf="labelInput">{{ labelInput }}</mat-label>
+  <mat-form-field [appearance]="inputAppearance" class="search-form__input-text">
+    <mat-icon matPrefix>search</mat-icon>
 
+    <mat-label *ngIf="inputLabel">{{ inputLabel }}</mat-label>
     <input
+      #inputElement
       type="text"
       matInput
       [matAutocomplete]="auto"
-      [placeholder]="placeHolderInput"
+      [placeholder]="inputPlaceHolder"
       [formControl]="nameInput"
       (input)="isSend = false"
       (focus)="isSend = false; searchSuggestions(nameInput.value)"
     />
-    
-    <mat-icon matPrefix>search</mat-icon>
 
-    <mat-autocomplete #auto (optionSelected)="onOptionSelected($event.option)">
-      <ng-container *ngIf="suggestions.length > 0">
-        <mat-option *ngFor="let country of suggestions" [value]="country.cca3">
-          <img src="https://flagcdn.com/w320/{{ country.code2.toLocaleLowerCase() }}.png" height="25" />
+    <mat-icon
+      matSuffix
+      *ngIf="nameInput.value !== null && nameInput.value.trim().length > 0"
+      class="btn-clean"
+      (click)="nameInput.reset()"
+    >close</mat-icon>
+
+    <mat-autocomplete #auto (optionSelected)="onOptionSelected($event)">
+      <ng-container *ngIf="!isSend">
+        <mat-option *ngFor="let country of suggestions" [value]="country.code3">
+          <img src="https://flagcdn.com/w320/{{ country.code2.toLowerCase() }}.png" height="25" />
           <span>{{ country.nameSpa }}</span> |
           <small>Población: {{ country.population | number }}</small>
         </mat-option>
+
         <mat-divider></mat-divider>
+
         <mat-option id="search-term" [value]="nameInput.value">
-          Buscar "{{ nameInput.value }}"
+          <span>Buscar "{{ nameInput.value }}"</span>
         </mat-option>
       </ng-container>
     </mat-autocomplete>

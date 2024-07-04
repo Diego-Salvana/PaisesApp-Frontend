@@ -1,6 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core'
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core'
 import { Subscription } from 'rxjs'
-import { filter, switchMap, tap } from 'rxjs/operators'
+import { switchMap, tap } from 'rxjs/operators'
 
 import { CountriesService } from '../../services/countries.service'
 import { FavoriteService } from 'src/app/auth/services/favorite.service'
@@ -10,36 +10,49 @@ import { CountryCard } from 'src/app/interfaces/Country.interface'
 @Component({
    selector: 'app-favorites',
    templateUrl: './favorites.component.html',
-   styleUrls: ['./favorites.component.css']
+   styleUrls: ['./favorites.component.css'],
+   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FavoritesComponent implements OnInit, OnDestroy {
-   private favoritesCountries: string[] = []
    private subscription = new Subscription()
    private searchTerm: string = ''
    private countriesList: CountryCard[] = []
    filteredCountriesList: CountryCard[] = []
    withoutFavorites: boolean = false
+   loader?: boolean
 
    constructor (
       private countriesService: CountriesService,
       private favoriteService: FavoriteService,
-      private matSnackBar: MatSnackBar
+      private matSnackBar: MatSnackBar,
+      private changeDetectorRef: ChangeDetectorRef
+
    ) {}
 
    ngOnInit (): void {
       this.subscription = this.favoriteService.favoritesList$
          .pipe(
-            tap((favList) => (this.withoutFavorites = favList.length < 1)),
-            filter((favList) => favList.length > 0),
-            tap((favList) => (this.favoritesCountries = favList)),
-            switchMap((favList) => this.countriesService.getByCodeList(favList))
+            tap(favList => {
+               this.withoutFavorites = favList.length < 1
+               
+               if (favList.length < 1) throw new Error('Lista de favoritos vacía')
+
+               if (this.loader === undefined) this.loader = true
+            }),
+            switchMap(favList => this.countriesService.getByCodeList(favList))
          )
          .subscribe({
             next: (countries) => {
                this.countriesList = countries
                this.filterCountries()
+               this.loader = false
+               this.changeDetectorRef.detectChanges()
             },
-            error: (err) => console.error(err)
+            error: (e) => {
+               this.withoutFavorites = true
+               this.loader = false
+               this.matSnackBar.open(e.message, 'X', { duration: 3000 })
+            }
          })
    }
 
@@ -48,27 +61,28 @@ export class FavoritesComponent implements OnInit, OnDestroy {
    }
 
    updateFavorites (cca3: string): void {
-      this.countriesList = this.countriesList.filter((country) => country.code3 !== cca3)
-      this.filterCountries(this.searchTerm)
+      this.countriesList = this.countriesList.filter(country => country.code3 !== cca3)
+      this.filterCountries()
    }
 
    searchCountry (text: string): void {
-      this.searchTerm = text
-      this.filterCountries(text)
+      this.searchTerm = text.trim()
+      this.filterCountries()
    }
 
-   filterCountries (term: string = ''): void {
-      this.filteredCountriesList = this.countriesList.filter((country) => {
-         const countryName = country.nameSpa.toLowerCase()
-         return countryName.includes(term.toLowerCase())
-      })
-
-      term.trim() !== '' && this.filteredCountriesList.length < 1
-         ? this.matSnackBar.open(`Sin resultados para "${term}"`, 'X', { duration: 3000 })
+   private filterCountries (): void {
+      if (this.searchTerm.length < 1) {
+         this.filteredCountriesList = this.countriesList
+      } else {
+         this.filteredCountriesList = this.countriesList.filter(country => {
+            const countryName = country.nameSpa.toLowerCase()
+   
+            return countryName.includes(this.searchTerm.toLowerCase())
+         })
+      }
+      
+      this.searchTerm.length > 0 && this.filteredCountriesList.length < 1
+         ? this.matSnackBar.open(`Sin resultados para "${this.searchTerm}"`, 'X', { duration: 3000 })
          : this.matSnackBar.dismiss()
-   }
-
-   checkIsFavorite (cca3: string): boolean {
-      return this.favoritesCountries.includes(cca3)
    }
 }

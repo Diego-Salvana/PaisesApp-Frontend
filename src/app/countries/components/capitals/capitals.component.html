@@ -4,9 +4,9 @@
   <form class="search-form" autocomplete="off">
     <app-input-search
       class="search-form__input-text"
-      placeHolderInput="Nombre de la capital..."
+      inputPlaceHolder="Nombre de la capital..."
       searchBy="capital"
-      [sessionValue]="termSessionCapital"
+      [sessionValue]="sessionCapitalTerm"
       (onSubmit)="searchCountries($event)">
     </app-input-search>
   </form>
@@ -20,10 +20,7 @@
   <ng-template #countriesGrid>
     <div class="grid-cards-container">
       <div class="grid-cards-item" *ngFor="let country of countriesList">
-        <app-card-country
-          [country]="country"
-          [isFavorite]="checkIsFavorite(country.code3)">
-        </app-card-country>
+        <app-card-country [country]="country"></app-card-country>
       </div>
     </div>
   </ng-template>

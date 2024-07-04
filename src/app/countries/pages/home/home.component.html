@@ -6,16 +6,14 @@
   <div class="form-container">
     <form class="form-home" autocomplete="off">
       <app-input-search
-        appearanceInput="fill"
         class="search-form__input-text"
-        labelInput="Buscar país"
+        inputAppearance="fill"
+        inputLabel="Buscar país"
         (onSubmit)="searchCountry($event)">
       </app-input-search>
     </form>
 
-    <!-- TODO: borrar session storage al hacer click en empezar -->
-     
-    <button mat-raised-button color="primary" class="btn-enter" routerLink="/search">
+    <button mat-raised-button color="primary" class="btn-enter" (click)="goSearch()">
       EMPEZAR
     </button>
   </div>

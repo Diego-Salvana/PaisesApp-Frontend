@@ -20,6 +20,10 @@
    user-select: none;
 }
 
+.mat-toolbar__nav--title:hover {
+   cursor: pointer;
+}
+
 .flex-align-center {
    display: flex;
    align-items: center;
@@ -43,7 +47,7 @@
    font-size: 1rem;
 }
 
-@media screen and (min-width: 600px) {
+@media screen and (min-width: 576px) {
    .btn-login {
       display: block;
    }

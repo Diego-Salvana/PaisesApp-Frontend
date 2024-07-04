@@ -50,7 +50,7 @@
    margin: auto;
 }
 
-@media screen and (min-width: 600px) {
+@media screen and (min-width: 576px) {
    .home {
       padding-top: 64px;
    }

@@ -14,12 +14,12 @@
         </button>
 
         <mat-menu #menu>
-          <ng-container *ngIf="!loggedUser; else user">
+          <ng-container *ngIf="!(loggedUser | async); else user">
             <button mat-menu-item routerLink="/auth">Iniciar Sesión</button>
           </ng-container>
 
           <ng-template #user>
-            <div class="mat-menu__user"><b>{{ loggedUser }}</b></div>
+            <div class="mat-menu__user"><b>{{ loggedUser | async }}</b></div>
             <mat-divider></mat-divider>
             <button mat-menu-item (click)="profileAlert()">Perfil</button>
             <button mat-menu-item (click)="logout()">Cerrar Sesión</button>
@@ -27,22 +27,22 @@
         </mat-menu>
       </ng-template>
 
-      <span class="mat-toolbar__nav--title">Países del Mundo</span>
+      <span class="mat-toolbar__nav--title" routerLink="/home">Países del Mundo</span>
     </div>
 
     <div class="flex-align-center btn-login">
-      <ng-container *ngIf="!loggedUser; else perfilUser">
+      <ng-container *ngIf="!(loggedUser | async); else perfilUser">
         <button mat-stroked-button routerLink="/auth">Iniciar Sesión</button>
       </ng-container>
 
       <!-- Menú de usuario -->
       <ng-template #perfilUser>
         <button mat-button [matMenuTriggerFor]="menuUser">
-          <span>{{ loggedUser }}</span>
+          <span>{{ loggedUser | async }}</span>
         </button>
 
         <mat-menu #menuUser>
-          <button mat-menu-item (click)="profileAlert()" (click)="favoriteClick()">
+          <button mat-menu-item (click)="profileAlert()">
             Perfil
           </button>
           <button mat-menu-item (click)="logout()">

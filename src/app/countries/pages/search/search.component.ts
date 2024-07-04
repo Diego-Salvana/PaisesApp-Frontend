@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core'
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core'
 import { BreakpointObserver } from '@angular/cdk/layout'
 import { MatDrawerMode, MatSidenav } from '@angular/material/sidenav'
 import { Subscription } from 'rxjs'
@@ -7,11 +7,12 @@ import { AuthService } from 'src/app/auth/services/auth.service'
 @Component({
    selector: 'app-search',
    templateUrl: './search.component.html',
-   styleUrls: ['./search.component.css']
+   styleUrls: ['./search.component.css'],
+   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SearchComponent implements OnInit, OnDestroy {
    private readonly minWidthLarge: string = '(min-width: 1280px)'
-   private readonly xSmallWidth: string = '(max-width: 599.98px)'
+   private readonly xSmallWidth: string = '(max-width: 576.98px)'
    private subscription = new Subscription()
    sidenavMode: MatDrawerMode = 'over'
    sidenavOpened!: boolean

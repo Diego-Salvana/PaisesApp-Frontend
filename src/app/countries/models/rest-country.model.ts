@@ -31,11 +31,7 @@ export class RestCountryModel implements ICountryModel {
          headers
       }).pipe(
          map(restCountries => {
-            const countryList = this.generateCountryCardInfoList(restCountries)
-
-            console.log(countryList)
-
-            return countryList
+            return this.generateCountryCardInfoList(restCountries)
          })
       )
    }
@@ -46,11 +42,7 @@ export class RestCountryModel implements ICountryModel {
          headers
       }).pipe(
          map(restCountries => {
-            const countryList = this.generateCountryCardInfoList(restCountries)
-
-            console.log(countryList)
-
-            return countryList
+            return this.generateCountryCardInfoList(restCountries)
          })
       )
    }
@@ -61,11 +53,7 @@ export class RestCountryModel implements ICountryModel {
          headers
       }).pipe(
          map(restCountries => {
-            const countryList = this.generateCountryCardInfoList(restCountries)
-
-            console.log(countryList)
-
-            return countryList
+            return this.generateCountryCardInfoList(restCountries)
          })
       )
    }
@@ -75,35 +63,29 @@ export class RestCountryModel implements ICountryModel {
          params: this.cardParams
       }).pipe(
          map(restCountries => {
-            const countryList = this.generateCountryCardInfoList(restCountries)
-
-            console.log(countryList)
-
-            return countryList
+            return this.generateCountryCardInfoList(restCountries)
          })
       )
    }
 
-   getByCode3 (code3: string): Observable<Country> {
+   getByCode3 (code3: string, headers?: HttpHeaders): Observable<Country> {
       return this.http.get<RestCountry[]>(`${this.baseUrl}/alpha?codes=${code3}`, {
-         params: this.fullCountryParams
+         params: this.fullCountryParams,
+         headers
       }).pipe(
          map(([restCountry]) => {
-            const country = this.generateCountryInfo(restCountry)
-
-            return country
+            return this.generateCountryInfo(restCountry)
          })
       )
    }
    
-   getBorders (codes: string[]): Observable<Border[]> {
+   getBorders (codes: string[], headers?: HttpHeaders): Observable<Border[]> {
       return this.http.get<RestCountry[]>(`${this.baseUrl}/alpha?codes=${codes.join()}`, {
-         params: this.borderParams
+         params: this.borderParams,
+         headers
       }).pipe(
          map(restCountries => {
-            const bordersList = this.generateBordersInfoList(restCountries)
-
-            return bordersList
+            return this.generateBordersInfoList(restCountries)
          })
       )
    }

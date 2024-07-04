@@ -10,7 +10,7 @@
 </section>
 
 <section>
-  <div class="loader-bar" *ngIf="false; else countriesGrid">
+  <div class="loader-bar" *ngIf="loader; else countriesGrid">
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   </div>
 
@@ -18,12 +18,11 @@
     <h2 class="info-text" *ngIf="withoutFavorites && filteredCountriesList.length < 1">
       Aún no hay favoritos.
     </h2>
-  
+
     <div class="grid-cards-container">
       <div class="grid-cards-item" *ngFor="let country of filteredCountriesList">
         <app-card-country
           [country]="country"
-          [isFavorite]="checkIsFavorite(country.code3)"
           (onFavoriteRemoved)="updateFavorites($event)">
         </app-card-country>
       </div>

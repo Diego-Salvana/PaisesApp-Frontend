@@ -36,4 +36,8 @@ export class FavoriteService {
          error: () => this.favoritesList.next(currentfavorites)
       })
    }
+
+   checkIsFavorite (code3: string): boolean {
+      return this.favoritesList.getValue().includes(code3)
+   }
 }
