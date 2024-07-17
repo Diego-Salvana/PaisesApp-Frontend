@@ -31,13 +31,65 @@
 
 .info h2 {
    font-size: 20px;
+   letter-spacing: .5px;
 }
 
-.info__border-countries span {
-   padding-right: 1rem;
-   min-height: 40px;
-   display: flex;
+table {
+   width: 100%;
+   /* max-width: 300px; */
+   height: max-content;
+   border-collapse: collapse;
+   background-color: #fff;
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+th,
+td {
+   padding: 12px;
+   text-align: left;
+   border-bottom: 1px solid #ddd;
+}
+
+th {
+   width: 150px;
+   background-color: #4CAF50;
+   background-color: #3b883e;
+   color: white;
+   letter-spacing: .8px;
+}
+
+td {
+   max-width: 500px;
+}
+
+td a {
+   text-decoration: none;
+   background-color: rgb(216, 219, 238);
+   color: #3f51b5;
+   font-weight: 500;
+   padding: .25rem 1rem;
+   border-radius: 5px;
+   display: inline-flex;
    align-items: center;
+   gap: .5rem;
+   transition: all .1s ease-in-out;
+}
+
+td a .location {
+   font-size: 16px;
+   font-weight: 500;
+}
+
+td a:hover {
+   background-color: rgb(194, 200, 236);
+}
+
+tr:hover {
+   background-color: #f1f1f1;
+}
+
+.info__border-countries {
+   height: 65px;
 }
 
 .mat-chip {
@@ -59,19 +111,18 @@
    .country-container {
       max-width: none;
       flex-direction: row;
+      padding-right: 6vw;
    }
 
    .info {
       margin-top: 0;
       padding-left: 10vw;
    }
+}
 
+@media screen and (min-width: 1600px) {
    .info__details {
       display: flex;
-   }
-
-   .info__details--1 {
-      padding-right: 5vw;
    }
 }
 

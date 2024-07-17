@@ -3,7 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { AuthService } from '../../services/auth.service'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { Router } from '@angular/router'
-import { emailValidator } from '../../utils/validations.handler'
+import { emailValidator, validationErrorTexts } from '../../utils/validations.handler'
+import { LoginForm } from 'src/app/interfaces/AuthUser.interface'
 
 @Component({
    selector: 'app-login',
@@ -11,13 +12,14 @@ import { emailValidator } from '../../utils/validations.handler'
    styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-   loginForm: FormGroup = this.formBuilder.group({
+   loginForm: FormGroup<LoginForm> = this.formBuilder.group({
       email: ['', [Validators.required, emailValidator]],
       password: ['', [Validators.required, Validators.minLength(6)]]
    })
 
    hide: boolean = true
    btnDisabled = false
+   errorTexts = validationErrorTexts
 
    constructor (
       private formBuilder: FormBuilder,
@@ -30,7 +32,9 @@ export class LoginComponent {
       if (this.loginForm.invalid) return
 
       this.btnDisabled = true
-      this.authService.loginUser(this.loginForm.value).subscribe({
+      const { email, password } = this.loginForm.value
+      
+      this.authService.loginUser({ email, password }).subscribe({
          next: () => {
             this.btnDisabled = false
             void this.router.navigate(['/search', 'by-country'])
@@ -40,17 +44,5 @@ export class LoginComponent {
             this.matSnakBar.open(e.message, 'X', { duration: 3000 })
          }
       })
-   }
-
-   emailError (): string {
-      return this.loginForm.controls['email'].hasError('required')
-         ? 'El campo es requerido.'
-         : 'Formato de email incorrecto.'
-   }
-
-   passwordError (): string {
-      return this.loginForm.controls['password'].hasError('required')
-         ? 'El campo es requerido.'
-         : 'Mínimo 6 caracteres.'
    }
 }

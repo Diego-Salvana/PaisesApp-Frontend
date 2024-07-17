@@ -19,18 +19,18 @@ export class VerifyTokenGuard implements CanActivate, CanLoad {
    canActivate (route: ActivatedRouteSnapshot): Observable<boolean> | boolean {
       const path = route.routeConfig?.path
       
-      if (this.user !== null) return path === 'favorites'
-      else if (path === 'favorites') return this.favoritesActivate()
-      else if (path === 'auth') return this.authActivate()
-      else return false
+      if (path === 'favorites' || path === 'profile') return this.favoritesAndProfileActivate()
+      if (path === 'auth') return this.authActivate()
+      return false
    }
 
    canLoad (): Observable<boolean> | boolean {
-      if (this.user !== null) return false
-      else return this.authActivate()
+      return this.authActivate()
    }
 
-   favoritesActivate (): Observable<boolean> {
+   private favoritesAndProfileActivate (): Observable<boolean> | boolean {
+      if (this.user !== null) return true
+
       return this.authService.validateToken().pipe(
          map(() => {
             return true
@@ -42,7 +42,9 @@ export class VerifyTokenGuard implements CanActivate, CanLoad {
       )
    }
 
-   authActivate (): Observable<boolean> {
+   private authActivate (): Observable<boolean> | boolean {
+      if (this.user !== null) return false
+
       return this.authService.validateToken().pipe(
          map(() => {
             void this.router.navigate(['/search/by-country'])

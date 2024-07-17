@@ -15,7 +15,7 @@
    cursor: pointer;
 }
 
-@media screen and (min-width: 600px) {
+@media screen and (min-width: 576px) {
    .email-icon {
       display: block !important;
    }

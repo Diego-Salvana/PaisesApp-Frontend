@@ -1,5 +1,5 @@
 <section class="search-form-container">
-  <h2>Encontrar por su nombre y/o continente</h2>
+  <h2 #h2>Encontrar por su nombre y/o continente</h2>
 
   <form [formGroup]="countriesForm" class="search-form" autocomplete="off">
     <app-input-search
@@ -24,14 +24,14 @@
   </form>
 </section>
 
-<section class="countries" [class.no-background]="filteredCountries.length > 0">
+<section class="countries" [class.no-background]="countriesShown.length > 0">
   <div class="loader-bar" *ngIf="isLoading$ | async; else countriesGrid">
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   </div>
 
   <ng-template #countriesGrid>
     <div class="grid-cards-container">
-      <div class="grid-cards-item" *ngFor="let country of filteredCountries">
+      <div class="grid-cards-item" *ngFor="let country of countriesShown">
         <app-card-country [country]="country"></app-card-country>
       </div>
     </div>

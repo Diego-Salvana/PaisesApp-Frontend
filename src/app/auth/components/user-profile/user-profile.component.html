@@ -1,1 +1,86 @@
-<p>user-profile works!</p>
+<section #sectionForm class="main-form">
+  <div class="form-container">
+    <h1 class="form-title">Datos de perfil</h1>
+
+    <form #userForm [formGroup]="usernameForm" (ngSubmit)="submitForm(usernameForm, userForm)" autocomplete="off">
+      <div class="profile-email"><b>Email: </b><span>{{ userEmail }}</span></div>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Nombre de Usuario</mat-label>
+        <input matInput formControlName="newUsername" placeholder="Nombre de usuario..." autocomplete="off" />
+        <mat-icon matSuffix class="person-icon">person</mat-icon>
+        <mat-error>{{ errorTexts.usernameError(usernameForm.controls.newUsername) }}</mat-error>
+      </mat-form-field>
+
+      <button
+        mat-raised-button
+        color="primary"
+        class="btn-submit"
+        type="submit"
+        [disabled]="userForm.hasAttribute('btn-disabled')">
+        <mat-icon matPrefix *ngIf="userForm.hasAttribute('btn-disabled')" class="loader-icon">sync</mat-icon>
+        <span>MODIFICAR NOMBRE</span>
+      </button>
+    </form>
+
+    <br>
+
+    <form #passForm [formGroup]="passwordForm" (ngSubmit)="submitForm(passwordForm, passForm)" autocomplete="off">
+      <mat-form-field appearance="fill">
+        <mat-label>Contraseña Actual</mat-label>
+        <input
+          matInput
+          formControlName="password"
+          [type]="hidePass ? 'password' : 'text'"
+          placeholder="Escribe la contraseña actual" />
+        <mat-icon matSuffix (click)="hidePass = !hidePass" class="visibility-change">
+          {{ hidePass ? "visibility_off" : "visibility" }}
+        </mat-icon>
+        <mat-error>{{ errorTexts.passwordError(passwordForm.controls.password) }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Nueva Contraseña</mat-label>
+        <input
+          matInput
+          formControlName="newPassword"
+          [type]="hidePass ? 'password' : 'text'"
+          placeholder="Escribe la nueva contraseña" />
+        <mat-icon matSuffix (click)="hidePass = !hidePass" class="visibility-change">
+          {{ hidePass ? "visibility_off" : "visibility" }}
+        </mat-icon>
+        <mat-error>{{ errorTexts.passwordError(passwordForm.controls.newPassword) }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Repite Nueva Contraseña</mat-label>
+        <input
+          matInput
+          formControlName="confirmNewPassword"
+          [type]="hideRePass ? 'password' : 'text'"
+          placeholder="Repite la nueva contraseña" />
+        <mat-icon matSuffix (click)="hideRePass = !hideRePass" class="visibility-change">
+          {{ hideRePass ? "visibility_off" : "visibility" }}
+        </mat-icon>
+        <mat-error>{{ errorTexts.confirmPasswordError(passwordForm.controls.confirmNewPassword) }}</mat-error>
+      </mat-form-field>
+
+      <br>
+      <br>
+
+      <button
+        mat-raised-button
+        color="primary"
+        class="btn-submit"
+        type="submit"
+        [disabled]="passForm.hasAttribute('btn-disabled')">
+        <mat-icon matPrefix *ngIf="passForm.hasAttribute('btn-disabled')" class="loader-icon">sync</mat-icon>
+        <span>MODIFICAR CONTRASEÑA</span>
+      </button>
+    </form>
+  </div>
+
+  <div class="btn-container">
+    <app-go-back-button [showArrow]="false" [whiteBtn]="true"></app-go-back-button>
+  </div>
+</section>

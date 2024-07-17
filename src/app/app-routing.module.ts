@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
 import { VerifyTokenGuard } from './shared/guards/verify-token.guard'
-// import { UserProfileComponent } from './auth/components/user-profile/user-profile.component'
+import { UserProfileComponent } from './auth/components/user-profile/user-profile.component'
 
 const routes: Routes = [
    {
@@ -10,7 +10,7 @@ const routes: Routes = [
       canLoad: [VerifyTokenGuard],
       canActivate: [VerifyTokenGuard]
    },
-   // { path: 'profile', component: UserProfileComponent },
+   { path: 'profile', component: UserProfileComponent, canActivate: [VerifyTokenGuard] },
    {
       path: '',
       loadChildren: () => import('./countries/countries.module').then((m) => m.CountriesModule)

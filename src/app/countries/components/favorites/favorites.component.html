@@ -15,12 +15,12 @@
   </div>
 
   <ng-template #countriesGrid>
-    <h2 class="info-text" *ngIf="withoutFavorites && filteredCountriesList.length < 1">
+    <h2 class="info-text" *ngIf="withoutFavorites && countriesShown.length < 1">
       Aún no hay favoritos.
     </h2>
 
     <div class="grid-cards-container">
-      <div class="grid-cards-item" *ngFor="let country of filteredCountriesList">
+      <div class="grid-cards-item" *ngFor="let country of countriesShown">
         <app-card-country
           [country]="country"
           (onFavoriteRemoved)="updateFavorites($event)">

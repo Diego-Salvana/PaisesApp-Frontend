@@ -18,11 +18,7 @@ const routes: Routes = [
          { path: 'by-country', component: CountriesComponent },
          { path: 'by-capital', component: CapitalsComponent },
          { path: 'country/:id', component: CountryComponent },
-         {
-            path: 'favorites',
-            component: FavoritesComponent,
-            canActivate: [VerifyTokenGuard]
-         },
+         { path: 'favorites', component: FavoritesComponent, canActivate: [VerifyTokenGuard] },
          { path: '**', redirectTo: 'by-country' }
       ]
    },

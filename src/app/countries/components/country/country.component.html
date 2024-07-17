@@ -13,32 +13,77 @@
     </div>
 
     <div class="info">
-      <h2><b>{{ country.nameSpa }}</b></h2>
+      <h2><b>{{ country.nameSpa | uppercase }}</b></h2>
 
       <div class="info__details">
-        <div class="info__details--1">
-          <p><b>Nombre Nativo: </b>{{ country.nativeName }}</p>
-          <p><b>Habitantes: </b>{{ country.population | number }}</p>
-          <p><b>Área: </b>{{ country.area | number }} km<sup>2</sup></p>
-          <p><b>Región: </b>{{ country.region | regionTraductor }}</p>
-          <p><b>Capital: </b>{{ country.capital }}</p>
-        </div>
 
-        <br />
+        <table>
+          <tr>
+            <th>Nombre Nativo</th>
+            <td>{{ country.nativeName }}</td>
+          </tr>
+          <tr>
+            <th>Habitantes</th>
+            <td>{{ country.population | number }}</td>
+          </tr>
+          <tr>
+            <th>Área</th>
+            <td>{{ country.area | number }} km²</td>
+          </tr>
+          <tr>
+            <th>Región</th>
+            <td>{{ country.region | regionTraductor }}</td>
+          </tr>
+          <tr>
+            <th>Capital</th>
+            <td>{{ country.capital }}</td>
+          </tr>
+        </table>
 
-        <div class="info__details--2">
-          <p><b>Zona Horaria: </b>{{ country.timezones[0] }}</p>
-          <p><b>Salida al Mar: </b>{{ country.landlocked ? "No" : "Sí" }}</p>
-          <p>
-            <b>Ubicación: </b>
-            <a mat-flat-button [href]="country.map" target="_blank" rel="noopener">Ver Mapa</a>
-          </p>
-        </div>
+        <table>
+          <tr>
+            <th>Zona Horaria</th>
+            <td>{{ country.timezones[0] }}</td>
+          </tr>
+          <tr>
+            <th>Salida al Mar</th>
+            <td>{{ country.landlocked ? "No" : "Sí" }}</td>
+          </tr>
+          <tr>
+          <tr>
+            <th>Ubicación</th>
+            <td>
+              <a [href]="country.map" target="_blank" rel="noopener">
+                <span class="text">Ver Mapa</span>
+                <span class="material-symbols-outlined location">location_on</span>
+              </a>
+            </td>
+          </tr>
+        </table>
       </div>
 
       <br />
 
-      <div class="info__border-countries">
+      <table class="info__border-countries">
+        <tr>
+          <th>Países limítrofes</th>
+          <td>
+            <mat-chip-list>
+              <div *ngIf="loadingBorders | async; else borderNames" class="loader-dots"></div>
+
+              <ng-template #borderNames>
+                <span *ngIf="borders.length < 1">No posee</span>
+
+                <mat-chip color="basic" *ngFor="let border of borders" routerLink="../{{ border.code3 }}">
+                  {{ border.nameSpa }}
+                </mat-chip>
+              </ng-template>
+            </mat-chip-list>
+          </td>
+        </tr>
+      </table>
+
+      <!-- <div class="info__border-countries">
         <mat-chip-list>
           <span class="borders-label"><b>Países Limítrofes:</b></span>
 
@@ -52,7 +97,7 @@
             </mat-chip>
           </ng-template>
         </mat-chip-list>
-      </div>
+      </div> -->
     </div>
   </section>
 </ng-template>

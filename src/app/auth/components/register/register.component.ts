@@ -3,7 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { AuthService } from '../../services/auth.service'
-import { emailValidator, passwordMatchValidator } from '../../utils/validations.handler'
+import { emailValidator, passwordMatchValidator, validationErrorTexts } from '../../utils/validations.handler'
+import { RegisterForm } from 'src/app/interfaces/AuthUser.interface'
 
 @Component({
    selector: 'app-register',
@@ -12,8 +13,8 @@ import { emailValidator, passwordMatchValidator } from '../../utils/validations.
    
 })
 export class RegisterComponent implements OnInit {
-   registerForm: FormGroup = this.formBuilder.group({
-      username: ['', Validators.required],
+   registerForm: FormGroup<RegisterForm> = this.formBuilder.group({
+      username: ['', [Validators.required, Validators.maxLength(20)]],
       email: ['', [Validators.required, emailValidator]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required, Validators.minLength(6), passwordMatchValidator]]
@@ -22,6 +23,7 @@ export class RegisterComponent implements OnInit {
    hidePass: boolean = true
    hideRePass: boolean = true
    btnDisabled = false
+   errorTexts = validationErrorTexts
 
    constructor (
       private formBuilder: FormBuilder,
@@ -31,8 +33,9 @@ export class RegisterComponent implements OnInit {
    ) {}
 
    ngOnInit (): void {
-      this.registerForm.controls['password'].valueChanges.subscribe(() => {
-         const confirmPassword = this.registerForm.controls['confirmPassword']
+      this.registerForm.controls.password.valueChanges.subscribe(() => {
+         const confirmPassword = this.registerForm.controls.confirmPassword
+         
          confirmPassword.setValue(confirmPassword.value)
       })
    }
@@ -41,7 +44,9 @@ export class RegisterComponent implements OnInit {
       if (this.registerForm.invalid) return
 
       this.btnDisabled = true
-      this.authService.registerUser(this.registerForm.value).subscribe({
+      const { username, email, password } = this.registerForm.value
+
+      this.authService.registerUser({ username, email, password }).subscribe({
          next: () => {
             this.btnDisabled = false
             void this.router.navigate(['/search', 'by-country'])
@@ -51,23 +56,5 @@ export class RegisterComponent implements OnInit {
             this.matSnakBar.open(e.message, 'X', { duration: 3000 })
          }
       })
-   }
-
-   emailError (): string {
-      return this.registerForm.controls['email'].hasError('required')
-         ? 'El campo es requerido.'
-         : 'Formato de email incorrecto.'
-   }
-
-   passwordError (): string {
-      return this.registerForm.controls['password'].hasError('required')
-         ? 'El campo es requerido.'
-         : 'Mínimo 6 caracteres.'
-   }
-
-   confirmPasswordError (): string {
-      if (this.registerForm.controls['confirmPassword'].hasError('required')) return 'El campo es requerido.'
-      else if (this.registerForm.controls['confirmPassword'].hasError('minlength')) return 'Mínimo 6 caracteres.'
-      else return 'Las contraseñas no coinciden.'
    }
 }

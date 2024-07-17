@@ -1,4 +1,4 @@
-<mat-card (click)="goToCountry()">
+<mat-card [class.long]="(user$ | async)?.username" (click)="goToCountry()">
   <img mat-card-image src="https://flagcdn.com/w320/{{ country.code2.toLowerCase() }}.png" />
 
   <div class="expander"></div>

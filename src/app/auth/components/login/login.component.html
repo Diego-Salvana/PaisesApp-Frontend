@@ -4,7 +4,7 @@
     <mat-label>Email</mat-label>
     <input matInput formControlName="email" placeholder="Escribe el email..." />
     <mat-icon matSuffix class="email-icon">email</mat-icon>
-    <mat-error>{{ emailError() }}</mat-error>
+    <mat-error>{{ errorTexts.emailError(loginForm.controls.email) }}</mat-error>
   </mat-form-field>
 
   <mat-form-field appearance="fill">
@@ -13,12 +13,11 @@
       matInput
       formControlName="password"
       [type]="hide ? 'password' : 'text'"
-      placeholder="Escribe la contraseña"
-    />
+      placeholder="Escribe la contraseña" />
     <mat-icon matSuffix (click)="hide = !hide" class="visibility-change">
       {{ hide ? "visibility_off" : "visibility" }}
     </mat-icon>
-    <mat-error>{{ passwordError() }}</mat-error>
+    <mat-error>{{ errorTexts.passwordError(loginForm.controls.password) }}</mat-error>
   </mat-form-field>
 
   <button mat-raised-button color="primary" type="submit" [disabled]="btnDisabled" class="btn-submit">

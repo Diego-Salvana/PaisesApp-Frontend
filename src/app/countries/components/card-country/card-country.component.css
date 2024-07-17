@@ -1,10 +1,14 @@
 .mat-card {
-   width: 260px;
+   width: 250px;
    height: 350px;
    cursor: pointer;
    overflow: hidden;
    display: flex;
    flex-direction: column;
+}
+
+.long {
+   height: 380px;
 }
 
 .mat-card-image {

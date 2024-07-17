@@ -21,7 +21,7 @@
           <ng-template #user>
             <div class="mat-menu__user"><b>{{ loggedUser | async }}</b></div>
             <mat-divider></mat-divider>
-            <button mat-menu-item (click)="profileAlert()">Perfil</button>
+            <button mat-menu-item routerLink="/profile">Perfil</button>
             <button mat-menu-item (click)="logout()">Cerrar Sesión</button>
           </ng-template>
         </mat-menu>
@@ -42,7 +42,7 @@
         </button>
 
         <mat-menu #menuUser>
-          <button mat-menu-item (click)="profileAlert()">
+          <button mat-menu-item routerLink="/profile">
             Perfil
           </button>
           <button mat-menu-item (click)="logout()">

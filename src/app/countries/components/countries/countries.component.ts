@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core'
+import { ChangeDetectionStrategy, Component, HostListener, OnInit } from '@angular/core'
 import { FormBuilder } from '@angular/forms'
 import { HttpHeaders } from '@angular/common/http'
 import { Observable } from 'rxjs'
@@ -8,6 +8,7 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 import { CountriesService } from '../../services/countries.service'
 import { LoaderService } from '../../services/loader.service'
 import { translateContinent } from 'src/app/shared/utils'
+import { addCards, showCountries } from '../../utils/infinity-scroll'
 import { CountryCard } from 'src/app/interfaces/Country.interface'
 
 @Component({
@@ -17,9 +18,10 @@ import { CountryCard } from 'src/app/interfaces/Country.interface'
    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CountriesComponent implements OnInit {
-   private countriesList: CountryCard[] = []
    private headers = new HttpHeaders({ loader: 'on' })
-   filteredCountries: CountryCard[] = []
+   private countriesList: CountryCard[] = []
+   private filteredCountries: CountryCard[] = []
+   countriesShown: CountryCard[] = []
    selectedRegion: string | null = sessionStorage.getItem('region')
    sessionCountryTerm: string | null = sessionStorage.getItem('country')
    countriesForm = this.fb.group({
@@ -46,21 +48,22 @@ export class CountriesComponent implements OnInit {
             sessionStorage.setItem('region', this.selectedRegion)
 
             if (this.countriesList.length < 1) this.searchByRegion()
-            else this.filterByRegion()
+            else this.filterByRegion(); this.countriesShown = showCountries(this.filteredCountries)
          } else {
-            sessionStorage.removeItem('region')
-            this.filteredCountries = this.countriesList
+            this.cleanStorage('region')
+            this.filteredCountries = [...this.countriesList]
+            this.countriesShown = showCountries(this.filteredCountries)
          }
       })
    }
 
    searchCountries (text?: string): void {
       if (text === undefined || text.trim().length < 1) {
-         this.countriesList = []
-         sessionStorage.removeItem('country')
+         this.resetLists()
+         this.cleanStorage('country')
 
          if (this.selectedRegion !== null) this.searchByRegion()
-         else this.filteredCountries = this.countriesList
+         else this.filteredCountries = [...this.countriesList]
          return
       }
 
@@ -78,10 +81,12 @@ export class CountriesComponent implements OnInit {
          )
          .subscribe({
             next: () => {
+               this.countriesShown = showCountries(this.filteredCountries)
                sessionStorage.setItem('country', text)
             },
             error: (e) => {
-               this.resetCountryLists()
+               this.resetLists()
+               this.cleanStorage('all')
                this.matSnackBar.open(e.message, 'X', { duration: 3000 })
             }
          })
@@ -93,9 +98,11 @@ export class CountriesComponent implements OnInit {
       this.countriesService.getByRegion(this.selectedRegion, this.headers).subscribe({
          next: (countries) => {
             this.filteredCountries = countries
+            this.countriesShown = showCountries(this.filteredCountries)
          },
          error: (e) => {
-            this.resetCountryLists()
+            this.resetLists()
+            this.cleanStorage('all')
             this.matSnackBar.open(e.message, 'X', { duration: 3000 })
          }
       })
@@ -103,7 +110,7 @@ export class CountriesComponent implements OnInit {
 
    private filterByRegion (): void {
       if (this.selectedRegion === null) {
-         this.filteredCountries = this.countriesList
+         this.filteredCountries = [...this.countriesList]
          return
       }
 
@@ -114,10 +121,31 @@ export class CountriesComponent implements OnInit {
       })
    }
 
-   private resetCountryLists (): void {
+   private resetLists (): void {
       this.countriesList = []
       this.filteredCountries = []
-      sessionStorage.removeItem('country')
-      sessionStorage.removeItem('region')
+      this.countriesShown = []
+   }
+
+   private cleanStorage (string: 'all' | 'country' | 'region'): void {
+      switch (string) {
+         case 'country':
+            sessionStorage.removeItem('country')
+            break
+         case 'region':
+            sessionStorage.removeItem('region')
+            break
+         default:
+            sessionStorage.removeItem('country')
+            sessionStorage.removeItem('region')
+            break
+      }
+   }
+
+   @HostListener('document:scroll')
+   onScroll (): void {
+      const cards = addCards(this.countriesShown, this.filteredCountries)
+
+      if (cards !== undefined) this.countriesShown = cards
    }
 }
